@@ -99,47 +99,13 @@ void ASerialReaderActor::ReadSerialData()
                     return;
 
                 RawPotValue = PotValue;
-
-                const float CenterX = 1904.0f;
-                const float CenterY = 1941.0f;
-                const float DeadZone = 0.0f;
-                const float Sensitivity = 0.01f;
-                const float MaxDelta = 500.0f;
-
-                float deltaX = FMath::Clamp((float)X - CenterX, -MaxDelta, MaxDelta);
-                float deltaY = FMath::Clamp((float)Y - CenterY, -MaxDelta, MaxDelta);
-
-                if (FMath::Abs(deltaX) < DeadZone) deltaX = 0;
-                if (FMath::Abs(deltaY) < DeadZone) deltaY = 0;
-
-                // Smoothing
-                static float PrevYawInput = 0.0f;
-                static float PrevPitchInput = 0.0f;
-                const float alpha = 0.2f; // Smoothing factor
-
-                float rawYaw = deltaX * Sensitivity * GetWorld()->DeltaTimeSeconds;
-                float rawPitch = -deltaY * Sensitivity * GetWorld()->DeltaTimeSeconds;
-
-                float yawInput = alpha * rawYaw + (1 - alpha) * PrevYawInput;
-                float pitchInput = alpha * rawPitch + (1 - alpha) * PrevPitchInput;
-
-                PrevYawInput = yawInput;
-                PrevPitchInput = pitchInput;
-
-                // Filter small errors
-                const float ErrorThreshold = 0.0001f;
-
-                if (FMath::Abs(yawInput) < ErrorThreshold) yawInput = 0.0f;
-                if (FMath::Abs(pitchInput) < ErrorThreshold) pitchInput = 0.0f;
-
+                deltaX = X;
+                deltaY = Y;
+                
                 UE_LOG(LogTemp, Warning, TEXT("Yaw: %f, Pitch: %f, Pot: %d, Raw: %s"),
-                    yawInput, pitchInput, PotValue, *Line);
+                    X, Y, PotValue, *Line);
 
-                if (APlayerController* PC = UGameplayStatics::GetPlayerController(GetWorld(), 0))
-                {
-                    PC->AddYawInput(yawInput);
-                    PC->AddPitchInput(pitchInput);
-                }
+                
             }
         }
     }

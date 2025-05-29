@@ -28,4 +28,9 @@ public:
 
     UPROPERTY(BlueprintReadOnly, Category = "Serial")
     int32 RawPotValue = 0;
+
+    UPROPERTY(BlueprintReadOnly, Category = "Serial")
+    float deltaX ;
+    UPROPERTY(BlueprintReadOnly, Category = "Serial")
+    float deltaY ;
 };
