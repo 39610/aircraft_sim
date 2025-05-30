@@ -33,11 +33,4 @@ public:
     float deltaX ;
     UPROPERTY(BlueprintReadOnly, Category = "Serial")
     float deltaY ;
-
-	UPROPERTY(BlueprintReadOnly, Category = "Serial")
-    bool joyButtonPressed;
-
-    UPROPERTY(BlueprintReadOnly, Category = "Serial")
-    bool externalButtonPressed;
-
 };

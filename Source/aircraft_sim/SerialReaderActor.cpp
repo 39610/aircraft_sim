@@ -37,7 +37,7 @@ void ASerialReaderActor::BeginPlay()
         return;
     }
 
-    dcbSerialParams.BaudRate = CBR_115200;
+    dcbSerialParams.BaudRate = CBR_9600;
     dcbSerialParams.ByteSize = 8;
     dcbSerialParams.StopBits = ONESTOPBIT;
     dcbSerialParams.Parity = NOPARITY;
@@ -93,8 +93,6 @@ void ASerialReaderActor::ReadSerialData()
                 int32 X = FCString::Atoi(*Values[0]);
                 int32 Y = FCString::Atoi(*Values[1]);
                 int32 PotValue = FCString::Atoi(*Values[2]);
-				int32 joyButton = FCString::Atoi(*Values[3]);
-				int32 externalButton = FCString::Atoi(*Values[4]);
 
                 // Ignore nonsense readings
                 if (X < 0 || X > 4096 || Y < 0 || Y > 4096)
@@ -103,12 +101,9 @@ void ASerialReaderActor::ReadSerialData()
                 RawPotValue = PotValue;
                 deltaX = X;
                 deltaY = Y;
-				joyButtonPressed = (joyButton == 1); // Convert to boolean
-				externalButtonPressed = (externalButton == 0); // Convert to boolean
-
                 
-                UE_LOG(LogTemp, Warning, TEXT("Yaw: %f, Pitch: %f,button: %d, Pot: %d, Raw: %s"),
-                    X, Y, externalButtonPressed,PotValue, *Line);
+                UE_LOG(LogTemp, Warning, TEXT("Yaw: %f, Pitch: %f, Pot: %d, Raw: %s"),
+                    X, Y, PotValue, *Line);
 
                 
             }
